@@ -22,7 +22,7 @@ ii cor[20];
 int mark[20];
 int nxt[20];
 int res;
-bool mrk[20];
+bool mrk[20][2];
 
 void findtsugi(int a){
     int num = 0;
@@ -39,12 +39,12 @@ void findtsugi(int a){
     return;
 }
 
-bool loop(int a){
+bool loop(int a,bool out){
     if(!a) return 0;
-    if(mrk[a]) return 1;
-    mrk[a] = mrk[mark[a]] = 1;
-    bool check = loop(nxt[mark[a]]);
-    mrk[a] = mrk[mark[a]] = 0;
+    if(mrk[a][out]) return 1;
+    mrk[a][out] = 1;
+    bool check = out ? loop(nxt[a],0) : loop(mark[a],1);
+    mrk[a][out] = 0;
     return check;
 }
 
@@ -52,11 +52,8 @@ bool loop(int a){
 
 void eval(int k,int cnt){
     if(cnt == N/2) {
-        for(int i=1;i<=N;i++)
-            cout << mark[i] << " ";
-        cout << endl;
         for(int i=1;i<=N; i++)
-            if(loop(i)) {res++; cout << "Find you!" << i << endl; break;}
+            if(loop(i,0)) {res++; break;}
         return;
     }
     if(mark[k]){
