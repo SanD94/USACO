@@ -18,15 +18,16 @@ ofstream fout ("wormhole.out");
 typedef pair <int,int> ii;
 
 int N;
-ii cor[12];
+ii cor[20];
 int mark[20];
-int next[20];
+int nxt[20];
 int res;
+bool mrk[20];
 
 void findtsugi(int a){
     int num = 0;
     int tmp = (int)MAX;
-    for(int i=0;i<N;i++){
+    for(int i=1;i<=N;i++){
         if(cor[i].se == cor[a].se && 
                 cor[i].fi < tmp &&
                 cor[i].fi > cor[a].fi){
@@ -34,30 +35,49 @@ void findtsugi(int a){
            tmp = cor[i].fi;
         } 
     }
-    next[a] = num;
+    nxt[a] = num;
     return;
 }
 
+bool loop(int a){
+    if(!a) return 0;
+    if(mrk[a]) return 1;
+    mrk[a] = mrk[mark[a]] = 1;
+    bool check = loop(nxt[mark[a]]);
+    mrk[a] = mrk[mark[a]] = 0;
+    return check;
+}
+
+
+
 void eval(int k,int cnt){
     if(cnt == N/2) {
-        loop();
+        for(int i=1;i<=N;i++)
+            cout << mark[i] << " ";
+        cout << endl;
+        for(int i=1;i<=N; i++)
+            if(loop(i)) {res++; cout << "Find you!" << i << endl; break;}
         return;
     }
-    for(int i=1;i<=N;i++)
-        if(i!=k && !mark[i]){
+    if(mark[k]){
+        eval(k+1,cnt);
+        return;
+    }
+    for(int i=k+1;i<=N;i++)
+        if(!mark[i]){
             mark[i] = k;
             mark[k] = i;
-            eval(i,cnt+1);
+            eval(k+1,cnt+1);
             mark[i] = mark[k] = 0;
         }
-
 }
 
 
 int main(){
     fin >> N;
-    for(int i=0;i<N;i++) fin >> cor[i].fi >> cor[i].se; 
-    for(int i=0;i<N;i++) findtsugi(i);
+    for(int i=1;i<=N;i++) fin >> cor[i].fi >> cor[i].se; 
+    for(int i=1;i<=N;i++) findtsugi(i);
     eval(1,0);
+    fout << res << endl;
     return 0;
 }
