@@ -24,30 +24,44 @@ bool prime(int k){
     return 1;
 }
 
-void generate(int num,int k){
-    if(num==5) cout << "Heeeey!!!" << k  << endl;
-    if(k>=9) {
-        if(prime(num)) vals[cnt++] = num;
-        return;
+int nop(int a){
+    int cnt=0;
+    while(a>0) {a/=10; cnt++;}
+    return cnt;
+}
+
+int pal(int a){
+    int num=0;
+    while(a>0){
+        num*=10;
+        num+=a%10;
+        a/=10;
     }
-    for(int i=0;i<10;i++) {
-        int quo = (int) pow(10,k-1);
-        generate(quo*i+num*10+i,k+2);
+    return num;
+}
+
+void generate(int num){
+    for(int i=0;i<1000;i++){
+        int np = nop(i);
+        int nm = (int) pow(10,np)*num + pal(i) + pow(10,np+1)*i;
+        if(prime(nm))  vals[cnt++] = nm;
     }
 }
 
 
 void write(){
     int start=0;
-    while(vals[start++]<a);
-    while(vals[start]<=b) fout << vals[start++] << endl;
+    while(vals[start++]<a); start--;
+    while(start<cnt && vals[start]<=b) fout << vals[start++] << endl;
 }
 
 int main(){
-    for(int i=0; i<=9;i++) generate(i,1);
+    for(int i=0; i<=9;i++) generate(i);
+    vals[cnt++] = 11;
     fin >> a >> b;
     sort(vals,vals+cnt);
-    for(int i=0;i<10;i++) cout << vals[i] << endl;
+    //for(int i=0;i<100;i++) cout << vals[i] << " ";
+    //cout << endl;
     write();
     return 0;
 }
