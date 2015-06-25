@@ -30,3 +30,10 @@
 * numtri
 * pprime
 * sprime
+
+##Section 2.1
+* castle
+* frac1
+* sort3
+* holstein
+* hamming
