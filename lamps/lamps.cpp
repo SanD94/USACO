@@ -39,11 +39,18 @@ int main(){
         }
     }
     for(int i=0;i<16;i++){
-        for(int i=0;i<N;i++) lamps |= def(i);
+        for(int j=0;j<N;j++) lamps |= def(j);
         if((i>>0)&1) lamps = 0;
-        if((i>>1)&1) for(int i=1;i<N;i+=2) lamps ^= def(i);
-        if((i>>2)&1) for(int i=0;i<N;i+=2) lamps ^= def(i);
-        if((i>>3)&1) for(int i=1;i<N;i+=3) lamps ^= def(i);
+        if((i>>1)&1) for(int j=1;j<N;j+=2) lamps ^= def(j);
+        if((i>>2)&1) for(int j=0;j<N;j+=2) lamps ^= def(j);
+        if((i>>3)&1) for(int j=1;j<N;j+=3) lamps ^= def(j);
+        all[i] = lamps;
+    }
+    sort(lamps,lamps+16);
+    for(int i=0;i<16;i++){
+        bool found = 1;
+        for(int j=0;j<N;j++) 
+            
     }
     
 
