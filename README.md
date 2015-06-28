@@ -37,3 +37,9 @@
 * sort3
 * holstein
 * hamming
+
+##Section 2.2
+* preface
+* subset
+* runround
+* lamps
