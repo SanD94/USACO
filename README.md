@@ -43,3 +43,10 @@
 * subset
 * runround
 * lamps
+
+##Section 2.3
+* prefix
+* nocows
+* zerosum
+* money
+* concom
