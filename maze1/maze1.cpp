@@ -25,7 +25,7 @@ ofstream fout("maze1.out");
 int W,H;
 string maze[MAXH*2+1];
 ii start[2];
-int res[2];
+int res;
 queue <iii> Q;
 int dir[][2] = { {1,0}, {0,1}, {-1,0}, {0,-1}};
 
@@ -41,19 +41,22 @@ bool check(ii next, int a){
 
 
 
-void BFS(int a){
+void BFS(){
     bool mark[MAXH][MAXW] = {};
-    Q.push(make_pair(start[a], 0));
-    mark[start[a].fi][start[a].se] = 1;
+    Q.push(make_pair(start[0], 0));
+    mark[start[0].fi][start[0].se] = 1;
+
+    Q.push(make_pair(start[1], 0));
+    mark[start[1].fi][start[1].se] = 1;
 
     while(!Q.empty()){
         iii now = Q.front(); Q.pop();
-        res[a] = now.se;
+        res= now.se;
         ii loc = now.fi;
         for(int i=0;i<4;i++){
             ii tsugi = make_pair(loc.fi+dir[i][0], loc.se+dir[i][1]);
             if(check(tsugi,(i+2)%4) && !mark[tsugi.fi][tsugi.se]){
-                Q.push(make_pair(tsugi,res[a]+1));
+                Q.push(make_pair(tsugi,res+1));
                 mark[tsugi.fi][tsugi.se] = 1;
             }
         }
@@ -81,10 +84,8 @@ int main(){
             getline(fin, maze[i]);
     find_exit();
 
-    BFS(0); 
-    BFS(1);
+    BFS(); 
     
-    if(res[1] < res[0]) fout << res[1]+1 << endl;
-    else fout << res[0]+1 << endl;
+    fout << res+1 << endl;
     return 0;
 }
