@@ -37,12 +37,10 @@ int main(){
     for(int i=1;i<MAXN;i++){
         if(!points[i]) continue;
         for(int j=i;j<MAXN;j++){
-            if(total[j-i]!=-1) total[j] = max(total[j], points[i]+total[j-i]);
+            total[j] = max(total[j], points[i]+total[j-i]);
         }
     }
 
-    long long int res=0;
-    for(int i=1;i<=M;i++) res = max(total[i],res);
-    fout << res << endl;
+    fout << total[M] << endl;
     return 0;
 }
