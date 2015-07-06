@@ -20,12 +20,6 @@ int N,M;
 long long int total[MAXN];
 long long int points[MAXN];
 
-void fill(){
-    for(int i=1;i<MAXN;i++)
-        total[i] = -1;
-}
-
-
 int main(){
     int a,b;
     fin >> M >> N;
@@ -33,7 +27,6 @@ int main(){
         fin >> a >> b;
         points[b] = max(points[b],a);
     }
-    fill();
     for(int i=1;i<MAXN;i++){
         if(!points[i]) continue;
         for(int j=i;j<MAXN;j++){
