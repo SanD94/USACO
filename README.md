@@ -50,3 +50,18 @@
 * zerosum
 * money
 * concom
+
+##Section 2.4
+* ttwo
+* maze1
+* cowtour
+* comehome
+* fracdec
+
+##Section 3.1
+* agrinet
+* inflate
+* humble
+* contact
+* stamps 
+
