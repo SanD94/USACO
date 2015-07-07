@@ -9,7 +9,6 @@ LANG: C++11
 #include <fstream>
 #include <cstring>
 #include <queue>
-#include <string>
 using namespace std;
 
 #define MAXN 200010
@@ -46,13 +45,12 @@ void add(int start,int len){
 }
 
 
-string itos(int num,int len){
-    if(!len) return "";
-    char x = (num%2)+'0';
-    string k;
-    k.push_back(x);
-    return itos(num/2,len-1)+k;
+void itos(int num,int len){
+    if(!len) return;
+    itos(num/2,len-1);
+    fout << num%2;
 }
+
 
 int main(){
     fin >> A >> B >> N;
@@ -75,14 +73,14 @@ int main(){
     while(gon<N && !Q.empty()){
         iii tp = Q.top(); Q.pop();
         fout << tp.fi  << endl;
-        fout << itos(-tp.th,-tp.se);
+        itos(-tp.th,-tp.se);
         int line = 1;
         while(!Q.empty() && Q.top().fi == tp.fi){
             if(line==6) { fout << endl; line=0;}
             else fout << " "; 
 
             tp = Q.top(); Q.pop();
-            fout << itos(-tp.th,-tp.se);
+            itos(-tp.th,-tp.se);
             line++;
         }
        
