@@ -33,12 +33,18 @@ int res = 360;
 pair<int,int> angles[5];
 
 bool check(int a,int b){
-    if(angles[a].se <= angles[a].fi) angles[a].se+=MOD;
-    if(angles[b].se <= angles[b].fi) angles[b].se+=MOD;
     if(angles[a].fi <= angles[b].fi && angles[a].se >= angles[b].fi) return 1;
     if(angles[a].fi <= angles[b].se && angles[a].se >= angles[b].se) return 1;
     if(angles[b].fi <= angles[a].fi && angles[b].se >= angles[a].fi) return 1;
     if(angles[b].fi <= angles[a].se && angles[b].se >= angles[a].se) return 1;
+    if(angles[a].se < angles[a].fi){
+        if(angles[b].fi >= angles[a].fi || angles[b].se >= angles[a].fi) return 1;
+        if(angles[b].fi <= angles[a].se || angles[b].se <= angles[a].se) return 1;
+    }
+    if(angles[b].se < angles[b].fi){
+        if(angles[b].fi <= angles[a].fi || angles[b].fi <= angles[a].se) return 1;
+        if(angles[b].se >= angles[a].se || angles[b].se >= angles[a].fi) return 1;
+    }
     return 0;
 }
 
@@ -63,21 +69,21 @@ void eval(int time,int w){
 
 int main(){
     for(int i=0;i<5;i++){
-	fin >> wheels[i].speed;
-	fin >> wheels[i].no;
-	wheels[i].period = MOD / gcd(MOD, wheels[i].speed);
-	for(int j=0;j<wheels[i].no;j++){
-	    fin >> wheels[i].wedge[j] >> wheels[i].extend[j];
-	    for(int k=0;k<wheels[i].period;k++){
-		wheels[i].timeplace[j][k] = wheels[i].wedge[j];
-		wheels[i].wedge[j] = ( wheels[i].wedge[j] + wheels[i].speed ) % MOD;
-	    }
-	}
+        fin >> wheels[i].speed;
+        fin >> wheels[i].no;
+        wheels[i].period = MOD / gcd(MOD, wheels[i].speed);
+        for(int j=0;j<wheels[i].no;j++){
+            fin >> wheels[i].wedge[j] >> wheels[i].extend[j];
+            for(int k=0;k<wheels[i].period;k++){
+                wheels[i].timeplace[j][k] = wheels[i].wedge[j];
+                wheels[i].wedge[j] = ( wheels[i].wedge[j] + wheels[i].speed ) % MOD;
+            }
+        }
     }
 
 
     for(int i=0;i<MOD && res == 360;i++)
-	eval(i,0);
+        eval(i,0);
 
     if(res == 360)  fout << "none" << endl;
     else fout << res << endl;
