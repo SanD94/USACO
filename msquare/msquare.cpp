@@ -23,6 +23,11 @@ pair<int,char> dad[50000];
 char way[5] = "ABC";
 int per[8];
 queue<int> Q;
+int transform[3][8] = {
+    {8,7,6,5,4,3,2,1},
+    {4,1,2,3,6,7,8,5},
+    {1,7,2,4,5,3,6,8}};
+
 
 void init(){
     per[1]=per[0]=1;
@@ -63,25 +68,7 @@ int *origin(int a){
 
 int eval(int *perm,int w){
     int temp[8];
-    for(int i=0;i<8;i++) temp[i] = perm[i];
-    if(w == 0){
-        for(int i=0;i<4;i++)
-            swap(temp[i],temp[7-i]);
-        
-    }
-    if(w==1){
-       for(int i=1;i<4;i++){
-          swap(temp[0],temp[i]);
-          swap(temp[4],temp[8-i]);
-       }
-    }
-    if(w==2){
-        swap(temp[1], temp[2]);
-        swap(temp[1], temp[5]);
-        swap(temp[1], temp[6]);
-    }
-  
-
+    for(int i=0;i<8;i++) temp[i] = perm[transform[w][i]-1];
     return hash_perm(temp);
 }
 
