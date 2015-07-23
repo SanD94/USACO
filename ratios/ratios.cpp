@@ -14,50 +14,53 @@ ifstream fin("ratios.in");
 ofstream fout("ratios.out");
 
 
-int arr[100][100][100][3];
+int goal[3];
+int mixture[3][3];
+int mn = 300;
+int res[4];
 
-int wanted[3];
-int ratios[3][3];
-
-int sum(int *arr){
-    int res = 0;
-    for(int i=0;i<3;i++) res += arr[i];
-    return res;
+void check(int a,int b,int c){
+    int results[3];
+    for(int i=0;i<3;i++) {
+        results[i] = a*mixture[0][i] + b*mixture[1][i] + c*mixture[2][i];
+        if( !goal[i] ) {
+           if (results[i]) return;
+           else continue;
+        }
+        if( results[i] % goal[i] ) return;
+        results[i] /= goal[i];
+    }
+    for(int i=0;i<3;i++)
+        for(int j=i+1;j<3;j++)
+            if(goal[i] && goal[j] && results[i] != results[j] ) return;
+    if(a+b+c && a+b+c<mn){
+        mn = a+b+c;
+        res[0] = a; res[1] = b; res[2] = c;
+        for(int i=0;i<3;i++) if(goal[i]) res[3] = results[i];
+    }
 }
 
-void find(int a,int b,int c){
-    int vals[3];
-    int rmods[3];
-    for(int i=0;i<3;i++){
-        vals[i] = ratios[0][i] * a + ratios[1][i] * b + ratios[2][i] * c; 
-        rmods[i] = vals[i] % wanted[i];
-    }
-    int *x = arr[rmods[0]][rmods[1]][rmods[2]];
-    if((!x[0] && !x[1] && !x[2]) ||
-            a+b+c < sum(x)){
-       x[0] = a; x[1] = b; x[2] = c;
-       find(a+1,b,c); find(a,b+1,c); find(a,b,c+1);
-    }
-
-}
 
 
 int main(){
-    for(int i=0;i<3;i++) fin >> wanted[i];
+    fin >> goal[0] >> goal[1] >> goal[2];
     for(int i=0;i<3;i++)
-        for(int j=0;j<3;j++) fin >> ratios[i][j];
+        for(int j=0;j<3;j++)
+            fin >> mixture[i][j];
 
-    find(0,0,0);
-    if(!arr[0][0][0][0] && !arr[0][0][0][1] && !arr[0][0][0][2])
-        fout << "NONE" << endl;
-    else{
-        int a = arr[0][0][0][0];
-        int b = arr[0][0][0][1];
-        int c = arr[0][0][0][2];
+    for(int i=0;i<100;i++)
+        for(int j=0;j<100;j++)
+            for(int k=0;k<100;k++) 
+                check(i,j,k);
 
-        int r = (a*ratios[0][0] + b*ratios[1][0] + 
-                c*ratios[2][0]) / wanted[0];
-        fout << a << " " << b << " " << c << " " << r << endl;
+    if(mn == 300) fout << "NONE" << endl;
+    else {
+        fout << res[0];
+        for(int i=1;i<4;i++) fout << " " << res[i];
+        fout << endl;
     }
+
     return 0;
+
+
 }
