@@ -6,8 +6,8 @@ LANG: C++11
 
 #include <iostream>
 #include <fstream>
-#include <queue>
-#include <cstring>
+#include <set>
+#include <vector>
 
 using namespace std;
 
@@ -19,61 +19,56 @@ using namespace std;
 #define pb(a) push_back(a)
 
 typedef pair<int,int> ii;
-typedef pair<int,ii> iii;
 
 ifstream fin("butter.in");
 ofstream fout("butter.out");
 
 int N,P,C;
 vector<ii> paths[MAXP];
-bool mark[MAXP][MAXP];
 int dist[MAXP];
 int cows[MAXP];
 int res = MXX*MAXP;
-priority_queue<iii> Q;
+set<ii> S;
 
 void eval(int start){
     dist[start] = 0;
-    for(int i=1;i<=P;i++) memset(mark[i], 0, sizeof(mark[i]));
-    for(int i=0;i<(int)paths[start].size();i++){
-	int now =paths[start][i].fi;
-	int path =paths[start][i].se;
-	Q.push(mp(-path,mp(now,start)));
-	mark[now][start] = mark[start][now] = 1;
-    }
-    while(!Q.empty()){
-	iii now = Q.top(); Q.pop();
-	int path = -now.fi;
-	int to = now.se.fi;
-	int from = now.se.se;
-	dist[to] = dist[to] < dist[from] + path ? dist[to] 
-	    : dist[from] + path;
-	for(int i=0;i<(int)paths[to].size();i++){
-	    int next =paths[to][i].fi;
-	    if(mark[next][to]) continue;
-	    path =paths[to][i].se;
-	    Q.push(mp(-path,mp(next,to)));
-	    mark[next][to] = mark[to][next] = 1;
-	}
+    S.insert(mp(dist[start],start));
+    while(!S.empty()){
+        ii now = *S.begin(); S.erase(S.begin());
+        int path = now.fi;
+        int from = now.se;
+        for(int i = 0;i<(int)paths[from].size();i++){
+            int to = paths[from][i].fi;
+            path = paths[from][i].se; 
+            if( dist[to] > dist[from] + path ){
+                S.erase(mp(dist[to],to));
+                dist[to] = dist[from] + path;
+                S.insert(mp(dist[to],to));
+            }
+        }
     }	
     int mn = 0;
-    for(int i=0;i<C;i++) mn += dist[cows[i]];
+    for(int i=1;i<=P; i++) mn += dist[i]*cows[i];
     res = mn < res ? mn : res;
 }
 
 int main(){
     fin >> N >> P >> C;
-    for(int i=0;i<N;i++) fin >> cows[i];
+    int temp;
+    for(int i=0;i<N;i++){
+        fin >> temp;
+        cows[temp]++;
+    }
     int a,b,c;
     for(int i=0;i<C;i++) {
-	fin >> a >> b >> c;
-	paths[a].pb(mp(b,c));
-	paths[b].pb(mp(a,c));
+        fin >> a >> b >> c;
+        paths[a].pb(mp(b,c));
+        paths[b].pb(mp(a,c));
     }
 
     for(int i=1;i<=P;i++){
-	for(int j=1;j<=P;j++) dist[j] = MXX;
-	eval(i);
+        for(int j=1;j<=P;j++) dist[j] = MXX;
+        eval(i);
     }
     fout << res << endl;
     return 0;
