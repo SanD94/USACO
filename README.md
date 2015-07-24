@@ -65,3 +65,10 @@
 * contact
 * stamps 
 
+##Section 3.2
+* fact4
+* kimbits
+* spin
+* ratios
+* msquare
+* butter
