@@ -56,7 +56,7 @@ int do_step(int x, int y, int kflag) {
         int nx = x+moves[i][0];
         int ny = y+moves[i][1];
         if(check_boundaries(nx,ny) && dist[nx][ny][kflag] > d+1){
-            dist[nx][ny][kflag] = d+1;
+            dist[nx][ny] = d+1;
             f = 1;
         }
     }
