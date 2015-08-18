@@ -89,8 +89,6 @@ void eval_kings_move(ii dest){
         int step = Q.front().se;
         Q.pop();
         if(step > mx_move) continue;
-    //    if(dec_step < steps[now.fi][now.se][dest.fi][dest.se] + step)
-      //      continue;
         for(int i=0;i<(int)n_places.size();i++){
             ii n_place = n_places[i];
             dec_step = min(steps[n_place.fi][n_place.se][now.fi][now.se] +
@@ -135,11 +133,6 @@ int main(){
         for(int j=0;j<r;j++)
             eval_sum(mp(i,j));
 
-//    for(int i=0;i<c;i++){
-//        for(int j=0;j<r;j++)
-//            cout << sum_move[i][j] << " ";
-//        cout << endl;
-//    }
     for(int i=0;i<c;i++)
         for(int j=0;j<r;j++)
             eval_kings_move(mp(i,j));
