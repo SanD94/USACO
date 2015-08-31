@@ -1,5 +1,5 @@
 /*
-ID: johnfn2
+ID: safaand1
 PROG: camelot
 LANG: C++
 */
@@ -82,10 +82,6 @@ int main(){
     REP(i, R) REP(j, C) MIN = min(MIN, board1[i][j]);
     //cout << MIN << endl;
     
-    REP(i, R) {
-        REP(j,C) cout << board1[i][j]+memoking[i][j] << " "; 
-        cout << endl;
-    }
 
     int knightrescue[R][C];
     int withoutkk[R][C];
