@@ -72,3 +72,10 @@
 * ratios
 * msquare
 * butter
+
+##Section 3.3
+* fence
+* shopping
+* camelot
+* range
+* game1
