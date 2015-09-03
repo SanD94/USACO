@@ -20,23 +20,43 @@ int n,m,p;
 int res;
 int lim;
 
+
+int simple(int k){
+    int r_point;
+    int l_point;
+    if ( n == 0 ) r_point = MAXX;
+    else {
+        r_point = m*k/n;
+        if( m*k % n == 0) r_point --;
+    }
+    if ( n == p ) l_point = MAXX;
+    else {
+        l_point = m*(p-k)/(p-n);
+        if (m*(p-k)%(p-n) == 0 ) l_point--;
+    }
+    return min(r_point, l_point);
+}
+
+int obtuse(int k){
+    int r_point;
+    int l_point;
+    
+    r_point = m*k/n;
+    if( m*k % n == 0 ) r_point --;
+    if ( k <= p )   return r_point;
+    l_point = m*(k-p)/(n-p);
+    return r_point - l_point;
+}
+
 int main(){
     fin >> n >> m >> p;
     lim = max(n, p);
     for(int i=1;i<lim;i++){
-        int p_left;
-        int p_right;
-        if ( n == 0 ) p_left == MAXX;
-        else {
-            p_left = i*m/n;
-            if( i*m % n == 0 ) p_left--;
-        }
-        if ( p == n ) p_right == MAXX;
-        else {
-            p_right = i*m/abs(p-n);
-            if ( i*m % abs(p-n) == 0 ) p_right--;
-        }
+        if( n <= p ) res += simple(i);
+        else res += obtuse(i);
        
     }
 
+    fout << res << endl;
+    return 0;
 }
