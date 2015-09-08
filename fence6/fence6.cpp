@@ -52,16 +52,43 @@ int eval(int start, int end){
                 cur = i;
                 tmp = dist[i];   
             }
-        for(int i=1;i<=node;i++) cout << dist[i] << " ";
-        cout << endl;
         mark[cur] = 1;
     }
     return res+dist[end];
 }
 
-void join(int b, int a){
-    if(size[b] == 2) return;
-    if(edge[b][0] == 0) edge[b][size[b]++] = edge[a][ 
+
+int find(vector<int> &a){
+    int vals[110] = {};
+    for(int i=0;i<(int)a.size();i++)
+        for(int j=0;j<2;j++)
+            vals[edge[a[i]][j]]++;
+    int mx=1, ind=0;
+    for(int i=1;i<=node;i++)
+        if(mx < vals[i]){
+            mx = vals[i];
+            ind = i;
+        }
+    return ind;
+}
+
+void pushvex(int a,int b,vector<int> &veca, vector<int> &vecb){
+    int index = veca[0];
+    if(a == 0 && b == 0){
+        a = edge[index][0];
+        b = edge[index][1];
+    }
+    if(a == edge[index][0]) b = edge[index][1];
+    if(b == edge[index][0]) a = edge[index][1];
+    for(int i = 0; i < (int) veca.size(); i++){
+        if(size[veca[i]] == 2) continue;
+        if(edge[veca[i]][0] != a ) edge[veca[i]][size[veca[i]]++] = a;
+    } 
+
+    for(int i = 0; i < (int) vecb.size(); i++){
+        if(size[vecb[i]] == 2) continue;
+        if(edge[vecb[i]][0]!= b ) edge[vecb[i]][size[vecb[i]]++] = b;
+    } 
 }
 
 int main(){
@@ -70,17 +97,21 @@ int main(){
     for(int i=0;i<N;i++){
         fin >> index >> len >> n1 >> n2;
         while(size[index] < 2) edge[index][size[index]++] = ++node;
-        cout << index << " " << edge[index][0] << " " << edge[index][1] << endl;
+//        cout << index << " " << edge[index][0] << " " << edge[index][1] << endl;
         path[edge[index][0]].pb(mp(edge[index][1],len));
         path[edge[index][1]].pb(mp(edge[index][0],len));
-        for(int j=0;j<n1;j++){
-            fin >> side;
-            join(side, index);
+        vector<int> veca;
+        vector<int> vecb;
+        veca.pb(index); vecb.pb(index);
+        for(int j=0;j<n1;j++) {
+            fin >> side; 
+            veca.pb(side);
         }
         for(int j=0;j<n2;j++){
             fin >> side;
-            join(side,index);
+            vecb.pb(side);
         }
+        pushvex(find(veca), find(vecb), veca, vecb);
     }
 
     int res = MAXX;
