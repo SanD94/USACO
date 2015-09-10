@@ -1,4 +1,10 @@
+/*
+ID: safaand1
+PROG: stall4
+LANG: C++11
+*/
 #include <cstdio>
+#include <iostream>
 #include <cstring>
 #include <fstream>
 
@@ -59,6 +65,7 @@ int find_path(){
         if(stall[i] == -1 && find_stall(i)) return 1;
     return 0;
 }
+
 
 int main(){
     int cnt,st;
