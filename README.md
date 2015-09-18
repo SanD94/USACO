@@ -89,3 +89,9 @@
 ##Section 4.1
 * nuggets
 * fence6
+
+##Section 4.2
+* ditch
+* stall4
+* job
+
