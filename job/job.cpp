@@ -22,17 +22,16 @@ ofstream fout("job.out");
 
 int N,A,B;
 ii m1[30];
-ii m2[30];
+iii m2[30];
 int work[1000];
 
 int control(int mind,int wt){
-   return m2[mind].se.fi + m2[mind].fi - 
-       min(m2[mind].se.se - work[wt], m2[mind].fi);
+   return max(work[wt] + m2[mind].fi * m2[mind].se.se, m2[mind].se.fi);
 }
 
 int second(int mind,int wt){
     m2[mind].se.fi = control(mind, wt);
-    m2[mind].se.se = work[wt];
+    m2[mind].se.se ++;
     return m2[mind].se.fi;
 }
 
@@ -45,7 +44,7 @@ int main(){
     }
     for(int i=0;i<B;i++) {
         fin >> m;
-        m2[i] = mp(m,mp(0,100000));
+        m2[i] = mp(m,mp(0,1));
     }
 
     for(int i=0;i<N;i++){
@@ -59,6 +58,7 @@ int main(){
         }
         work[i] = m1[ind].se += m1[ind].fi;
     }
+    fout << work[N-1] << " ";
     int res = 0;
     for(int i=N-1;i>=0;i--){
         int mn = 100000;
