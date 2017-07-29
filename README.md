@@ -63,7 +63,7 @@
 * inflate
 * humble
 * contact
-* stamps 
+* stamps
 
 ##Section 3.2
 * fact4
@@ -110,3 +110,5 @@
 * starry
 * theme
 
+##Section 5.2
+* snail
