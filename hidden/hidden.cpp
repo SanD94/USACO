@@ -31,7 +31,8 @@ int main(int argc, char const* argv[]) {
         while ( s[(res + counter) % L] == s[(current + counter) % L]
                 && counter < L) counter++;
         if ( s[(res + counter) % L] > s[(current + counter) % L]) res = current;
-        current += counter; current++;
+        if(counter) current += counter;
+        else current ++;
     }
     cout << res << endl;
 
