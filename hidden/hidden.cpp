@@ -26,7 +26,7 @@ int main(int argc, char const* argv[]) {
     string line;
     while(getline(cin, line)) ss << line;
     ss << ss.str(); ss << char('z'+1);
-    s = ss.str(); 
+    s = ss.str();
     L = 2*L + 1;
 
     for(int i=0;i<L;i++) start[i] = i;
@@ -57,6 +57,7 @@ int main(int argc, char const* argv[]) {
         }
         res = cur_res;
     }
+
 
     cout << start[0] << endl;
     return 0;
