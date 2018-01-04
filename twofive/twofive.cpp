@@ -1,6 +1,11 @@
+/*
+ID: safaand1
+PROG: twofive
+LANG: C++11
+*/
+
 #include <iostream>
 #include <cstdio>
-#include <vector>
 
 using namespace std;
 
@@ -23,30 +28,37 @@ int eval(int a, int b, int c, int d, int e) {
 }
 
 string find(int num) {
-    string res;
+    string res(25,'A');
+    int arr[5] = {};
+    for(int i=0;i<25;i++)
+        for(int j=0;j<5;j++) {
+            arr[j]++;
+            if(check(arr[0], arr[1], arr[2], arr[3], arr[4])) {
+                int cur = dyn[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]];
+                if (cur > num) { res[j*5+(arr[j]-1)] = 'A'+i; break; }
+                cout << cur << endl;
+                num -= cur;
+            }
+            arr[j]--;
+        }
 
     return res;
 }
 
-int find_row(string s, char x) {
-    for(int i=0;i<25;i++) if (s[i] == x) return i/5;
-    return -1;
-}
 
 int find(string s) {
     char cur = 'A';
     int res = 0;
-    int arr[5] = { 0, 0, 0, 0, 0 };
-    for(int i=0;i<25;i++) {
-        arr[i/5]++;
-        if (cur <= s[i]) {
-            for(; cur < s[i]; cur++) {
+    int arr[5] = { };
+    for(int i=0;i<25;i++)
+        for(int j=0;j<5;j++) {
+            arr[j]++;
+            if(check(arr[0], arr[1], arr[2], arr[3], arr[4])) {
+                if (s[j*5+arr[j]-1] == 'A'+i) break;
                 res += dyn[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]];
-                arr[find_row(s,cur)]++;
             }
-            cur ++;
+            arr[j]--;
         }
-    }
     return res + 1;
 }
 
@@ -59,11 +71,9 @@ int main(int argc, char const* argv[]) {
 
     dyn[5][5][5][5][5] = 1;
     eval(0,0,0,0,0);
-    vector<int> nope;
-    nope.push_back(15);
 
     cin >> type;
-    if (type == 'N') { cin >> num; cout << find(num) << endl; }
+    if (type == 'N') { cin >> num; cout << find(num-1) << endl; }
     else { cin >> seq; cout << find(seq) << endl; }
     return 0;
 }
